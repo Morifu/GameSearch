@@ -64,7 +64,7 @@ public class SearchActivity extends FragmentActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             if (rootView != null) {
-                Button button = (Button) rootView.findViewById(R.id.button);
+                Button button = (Button) rootView.findViewById(R.id.searchButton);
                 if (button != null)
                     button.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
@@ -74,6 +74,7 @@ public class SearchActivity extends FragmentActivity {
                         }
                     });
             }
+            setHasOptionsMenu(true);
             return rootView;
         }
     }
