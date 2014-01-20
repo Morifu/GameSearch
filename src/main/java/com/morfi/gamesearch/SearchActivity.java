@@ -27,9 +27,7 @@ public class SearchActivity extends FragmentActivity {
                     .commit();
         }
 
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

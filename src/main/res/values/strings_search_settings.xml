@@ -28,7 +28,6 @@
         <item>CD Projekt</item>
         <item>Eidos</item>
         <item>Vanilla Software</item>
-        <item>iFun4All</item>
     </string-array>
 
     <string name="pref_title_genre">Genre</string>
