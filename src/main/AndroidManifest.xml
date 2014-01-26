@@ -13,18 +13,26 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
             android:name="com.morfi.gamesearch.ItemListActivity"
-            android:label="@string/app_name"
-            android:parentActivityName=".SearchActivity">
+            android:label="@string/search_btn">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SearchActivity" />
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value="com.morfi.gamesearch.ItemListActivity" />
+
         <activity
             android:name="com.morfi.gamesearch.ItemDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName=".ItemListActivity">
+            android:parentActivityName="com.morfi.gamesearch.ItemListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />
@@ -34,10 +42,10 @@
             android:label="@string/title_activity_search">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
