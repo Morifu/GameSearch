@@ -1,8 +1,21 @@
 package com.morfi.gamesearch;
 
+import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -24,16 +37,40 @@ import android.support.v4.app.FragmentActivity;
 public class ItemListActivity extends FragmentActivity
         implements ItemListFragment.Callbacks {
 
+    private ProgressDialog pDialog;
+
+    private JSONParser jParser = new JSONParser();
+
+    ArrayList<HashMap<String, String>> productsList;
+
+    // url for http get all products
+    private static String url_all_products_MYSQL = "http://31.172.184.17/android_connect/get_all_products.php";
+    private static String url_all_products_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_all_products.php";
+
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_PRODUCTS = "products";
+    private static final String TAG_PID = "pid";
+    private static final String TAG_NAME = "Title";
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
 
+    JSONArray products = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        // Hashmap for ListView
+        productsList = new ArrayList<HashMap<String, String>>();
+
+        // Loading products in Background Thread
+        new LoadAllProducts().execute();
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -49,7 +86,20 @@ public class ItemListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.d("DBMANAGER", "query is:" + query);
+
+            doSearch();
+
+        }
+
+
+    }
+
+    private void doSearch() {
+        Log.d("DBMANAGER", "SEARCHING QUERY");
     }
 
     /**
@@ -78,4 +128,95 @@ public class ItemListActivity extends FragmentActivity
             startActivity(detailIntent);
         }
     }
+
+
+    /**
+     * Background Async Task to Load all product by making HTTP Request
+     */
+    class LoadAllProducts extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ItemListActivity.this);
+            pDialog.setMessage("Loading products. Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        /**
+         * getting All products from url
+         */
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+            JSONObject json = jParser.makeHttpRequest(url_all_products_MYSQL, "GET", params);
+
+            // Check your log cat for JSON reponse
+            Log.d("All Products: ", json.toString());
+
+            try {
+                // Checking for SUCCESS TAG
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    products = json.getJSONArray(TAG_PRODUCTS);
+
+                    // looping through All Products
+                    for (int i = 0; i < products.length(); i++) {
+                        JSONObject c = products.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String id = c.getString(TAG_PID);
+                        String name = c.getString(TAG_NAME);
+
+                        // creating new HashMap
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // adding each child node to HashMap key => value
+                        map.put(TAG_PID, id);
+                        map.put(TAG_NAME, name);
+
+                        // adding HashList to ArrayList
+                        productsList.add(map);
+                    }
+                } else {
+                    // no products found
+                    // Launch Add New product Activity
+//                    Intent i = new Intent(getApplicationContext(),
+//                            NewProductActivity.class);
+//                    // Closing all previous activities
+//                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(i);
+                    Log.d("DBMANAGER", "CANNOT SUCCESSFULLY DOWNLOAD ITEMS");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * *
+         */
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after getting all products
+            pDialog.dismiss();
+
+            Log.d("DBMANAGER", "POST EXECUTE");
+
+
+        }
+
+    }
+
 }

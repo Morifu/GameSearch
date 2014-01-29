@@ -8,6 +8,9 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -16,7 +19,8 @@
 
         <activity
             android:name="com.morfi.gamesearch.ItemListActivity"
-            android:label="@string/search_btn">
+            android:label="@string/search_btn"
+            android:parentActivityName="com.morfi.gamesearch.ItemListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -47,5 +51,6 @@
         </activity>
 
     </application>
+
 
 </manifest>

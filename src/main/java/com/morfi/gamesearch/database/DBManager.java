@@ -29,7 +29,7 @@ public class DBManager {
     /**
      * @param description
      */
-    DBManager(ConnectionDescriptor description) {
+    public DBManager(ConnectionDescriptor description) {
         this.descriptor = description;
         setupConnection(description.getHostName(), "",
                 description.getUserName(), description.getPassword());
@@ -48,7 +48,7 @@ public class DBManager {
     private void setupConnection(String host, String dbname, String login,
                                  String password) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
             name = dbname;
             url = "jdbc:mysql://" + host + "/" + dbname;
             url += "?autoReconnect=true&characterEncoding=UTF-8";
@@ -67,6 +67,10 @@ public class DBManager {
         } catch (SQLException e) {
             e.printStackTrace();
             connection = null;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 
