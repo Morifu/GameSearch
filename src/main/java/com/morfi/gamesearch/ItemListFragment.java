@@ -3,6 +3,7 @@ package com.morfi.gamesearch;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -71,6 +72,7 @@ public class ItemListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         // TODO: replace with a real list adapter.
+        Log.d("DBMANAGER", "CREATING FRAGMENT!");
         setListAdapter(new ArrayAdapter<ProductContent.ProductItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
@@ -104,6 +106,7 @@ public class ItemListFragment extends ListFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.d("GAMESEARCH", "ITEMLISTFRAGMENT onDetach()");
 
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sDummyCallbacks;
@@ -115,7 +118,7 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(ProductContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(ProductContent.ITEMS.get(position).pid);
     }
 
     @Override

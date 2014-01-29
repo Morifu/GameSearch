@@ -39,9 +39,7 @@ public class ItemDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+
             mItem = ProductContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
@@ -53,7 +51,12 @@ public class ItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.content);
+            ((TextView) rootView.findViewById(R.id.detail_title)).setText("Game Title: " + mItem.title);
+            ((TextView) rootView.findViewById(R.id.detail_price)).setText("Price: " + mItem.price + " PLN");
+            ((TextView) rootView.findViewById(R.id.detail_genre)).setText("Genre: " + mItem.genre);
+            ((TextView) rootView.findViewById(R.id.detail_producer)).setText("Producer: " + mItem.producer);
+            ((TextView) rootView.findViewById(R.id.detail_platform)).setText("Platform(s): " + mItem.platform);
+
         }
 
         return rootView;

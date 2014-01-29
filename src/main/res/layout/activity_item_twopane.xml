@@ -21,13 +21,13 @@
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
 
-    <fragment
-        android:id="@+id/item_list"
-        android:name="com.morfi.gamesearch.ItemListFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:layout="@android:layout/list_content" />
+    <FrameLayout
+        android:layout_width="88dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/item_list_container"
+        android:layout_weight="0.13">
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/item_detail_container"

@@ -3,19 +3,25 @@ package com.morfi.gamesearch;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.morfi.gamesearch.product.ProductContent;
+
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -41,17 +47,26 @@ public class ItemListActivity extends FragmentActivity
 
     private JSONParser jParser = new JSONParser();
 
-    ArrayList<HashMap<String, String>> productsList;
-
     // url for http get all products
     private static String url_all_products_MYSQL = "http://31.172.184.17/android_connect/get_all_products.php";
+    private static String url_single_product_MYSQL = "http://31.172.184.17/android_connect/get_product_details.php";
     private static String url_all_products_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_all_products.php";
+    private static String url_single_product_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_product_details.php";
+
+    private String query;
+    private String requestURL;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_PRODUCTS = "products";
     private static final String TAG_PID = "pid";
-    private static final String TAG_NAME = "Title";
+    private static final String TAG_TITLE = "Title";
+    private static final String TAG_GENRE = "Genre";
+    private static final String TAG_PRICE = "Price";
+    private static final String TAG_PRODUCER = "Producer";
+    private static final String TAG_PLATFORM = "Platform";
+
+    private static final String TAG_LIST_FRAGMENT = "list_tag";
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -66,11 +81,8 @@ public class ItemListActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        // Hashmap for ListView
-        productsList = new ArrayList<HashMap<String, String>>();
-
-        // Loading products in Background Thread
-        new LoadAllProducts().execute();
+        // Show the Up button in the action bar.
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -82,16 +94,34 @@ public class ItemListActivity extends FragmentActivity
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
             ((ItemListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.item_list))
+                    .findFragmentById(R.id.item_list_container))
                     .setActivateOnItemClick(true);
+
+
         }
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            query = intent.getStringExtra(SearchManager.QUERY);
             Log.d("DBMANAGER", "query is:" + query);
 
+
+            ProductContent.ITEMS.clear();
+
             doSearch();
+
+
+        } else {
+            ItemListFragment fragment = ((ItemListFragment) getSupportFragmentManager()
+                    .findFragmentByTag(TAG_LIST_FRAGMENT));
+            if (fragment == null) {
+                Log.d("DBMANAGER", "Fragment is null, creating new one");
+                fragment = new ItemListFragment();
+            }
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.search_result_container, fragment)
+                    .commit();
+
 
         }
 
@@ -100,6 +130,9 @@ public class ItemListActivity extends FragmentActivity
 
     private void doSearch() {
         Log.d("DBMANAGER", "SEARCHING QUERY");
+
+        // Loading products in Background Thread
+        new LoadAllProducts().execute();
     }
 
     /**
@@ -129,11 +162,34 @@ public class ItemListActivity extends FragmentActivity
         }
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                // This ID represents the Home or Up button. In the case of this
+//                // activity, the Up button is shown. Use NavUtils to allow users
+//                // to navigate up one level in the application structure. For
+//                // more details, see the Navigation pattern on Android Design:
+//                //
+//                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+//                //
+//                NavUtils.navigateUpTo(this, new Intent(this, SearchActivity.class));
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
 
     /**
      * Background Async Task to Load all product by making HTTP Request
      */
     class LoadAllProducts extends AsyncTask<String, String, String> {
+
+        // list of php params
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+
+        private int search_id_count = 0;
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -146,19 +202,44 @@ public class ItemListActivity extends FragmentActivity
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+
+            // params have always title!
+            params.add(new BasicNameValuePair("title", query));
+
+            // get shared preferences instance
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            if (preferences.getBoolean("advanced_search_preference", false)) {
+                Log.d("DBMANAGER", "PREFERENCES ADVANCED ARE ON!");
+
+                Set<String> genres = new HashSet<String>();
+                genres = preferences.getStringSet("genres_list", genres);
+                Log.d("DBMANAGER", "GENRES SELECTED: " + genres.toString());
+                params.add(new BasicNameValuePair("genre", (String) genres.toArray()[0]));
+                Log.d("DBMANAGER", "PARAMS ARE: " + params.toString());
+            }
+
+            search_id_count = 0;
         }
 
         /**
          * getting All products from url
          */
         protected String doInBackground(String... args) {
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest(url_all_products_MYSQL, "GET", params);
+
+            // TODO: setting up params based on preferences
+
+
+            makeRequest(url_single_product_MYSQL);
+            makeRequest(url_all_products_POSTGRESQL);
+
+            return null;
+        }
+
+        private void makeRequest(String url) {
+            JSONObject json = jParser.makeHttpRequest(url, "GET", params);
 
             // Check your log cat for JSON reponse
-            Log.d("All Products: ", json.toString());
+            Log.d("DBMANAGER", "All products: " + json.toString());
 
             try {
                 // Checking for SUCCESS TAG
@@ -175,17 +256,14 @@ public class ItemListActivity extends FragmentActivity
 
                         // Storing each json item in variable
                         String id = c.getString(TAG_PID);
-                        String name = c.getString(TAG_NAME);
-
-                        // creating new HashMap
-                        HashMap<String, String> map = new HashMap<String, String>();
-
-                        // adding each child node to HashMap key => value
-                        map.put(TAG_PID, id);
-                        map.put(TAG_NAME, name);
-
-                        // adding HashList to ArrayList
-                        productsList.add(map);
+                        String title = c.getString(TAG_TITLE);
+                        String genre = c.getString(TAG_GENRE);
+                        int price = c.getInt(TAG_PRICE);
+                        String producer = c.getString(TAG_PRODUCER);
+                        String platform = c.getString(TAG_PLATFORM);
+                        Log.d("DBMANAGER", "ADDING TITLE: " + title);
+                        ProductContent.addItem(new ProductContent.ProductItem(id + search_id_count, title, genre, price, producer, platform));
+                        search_id_count++;
                     }
                 } else {
                     // no products found
@@ -200,8 +278,6 @@ public class ItemListActivity extends FragmentActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            return null;
         }
 
         /**
@@ -212,6 +288,14 @@ public class ItemListActivity extends FragmentActivity
             // dismiss the dialog after getting all products
             pDialog.dismiss();
 
+
+            ItemListFragment fragment = new ItemListFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.search_result_container, fragment, TAG_LIST_FRAGMENT)
+                    .commit();
+
+            for (int i = 0; i < ProductContent.ITEMS.size(); i++)
+                Log.d("DBPRODUCTS", "Product is: " + ProductContent.ITEMS.get(i).title);
             Log.d("DBMANAGER", "POST EXECUTE");
 
 

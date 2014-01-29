@@ -23,26 +23,35 @@ public class ProductContent {
      */
     public static Map<String, ProductItem> ITEM_MAP = new HashMap<String, ProductItem>();
 
-    private static void addItem(ProductItem item) {
+    public static void addItem(ProductItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(item.pid, item);
     }
 
     /**
      * A dummy item representing a piece of content.
      */
     public static class ProductItem {
-        public String id;
-        public String content;
+        public String pid;
+        public String title;
+        public String genre;
+        public int price;
+        public String producer;
+        public String platform;
 
-        public ProductItem(String id, String content) {
-            this.id = id;
-            this.content = content;
+        public ProductItem(String id, String title, String genre, int price, String producer, String platform) {
+            this.pid = id;
+            this.title = title;
+            this.genre = genre;
+            this.price = price;
+            this.producer = producer;
+            this.platform = platform;
         }
 
+        /* method to stringify object, it allows to display objects in item list*/
         @Override
         public String toString() {
-            return content;
+            return title + ", price : " + price + " PLN";
         }
     }
 }
