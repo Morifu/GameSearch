@@ -19,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,10 +47,10 @@ public class ItemListActivity extends FragmentActivity
     private JSONParser jParser = new JSONParser();
 
     // url for http get all products
-    private static String url_all_products_MYSQL = "http://31.172.184.17/android_connect/get_all_products.php";
-    private static String url_single_product_MYSQL = "http://31.172.184.17/android_connect/get_product_details.php";
-    private static String url_all_products_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_all_products.php";
-    private static String url_single_product_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_product_details.php";
+    // private static String url_all_products_MYSQL = "http://31.172.184.17/android_connect/get_all_products.php";
+    private String url_single_product_MYSQL = "http://31.172.184.17/android_connect/get_product_details.php";
+    //private static String url_all_products_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_all_products.php";
+    private String url_single_product_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_product_details.php";
 
     private String query;
     private String requestURL;
@@ -208,13 +207,67 @@ public class ItemListActivity extends FragmentActivity
 
             // get shared preferences instance
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
             if (preferences.getBoolean("advanced_search_preference", false)) {
                 Log.d("DBMANAGER", "PREFERENCES ADVANCED ARE ON!");
 
-                Set<String> genres = new HashSet<String>();
+                // CHECK GENRES! -------------------------------------------
+                Set<String> genres = null;
                 genres = preferences.getStringSet("genres_list", genres);
-                Log.d("DBMANAGER", "GENRES SELECTED: " + genres.toString());
-                params.add(new BasicNameValuePair("genre", (String) genres.toArray()[0]));
+
+                if (genres != null) {
+                    String genres_str = "";
+                    for (int i = 0; i < genres.size(); i++) {
+                        if (i > 0)
+                            genres_str += ",";
+                        genres_str += genres.toArray()[i].toString();
+                    }
+
+                    params.add(new BasicNameValuePair("genre", genres_str));
+                }
+
+                // CHECK PRICES!! ------------------------------------------
+                String prices;
+                prices = preferences.getString("price_preference", "");
+
+                if (!prices.isEmpty()) {
+                    Log.d("DBMANAGER", "prices are : " + prices);
+                    String[] minMax = prices.split("-");
+
+                    params.add(new BasicNameValuePair("priceMin", minMax[0]));
+                    params.add(new BasicNameValuePair("priceMax", minMax[1]));
+                }
+
+                // CHECK PRODUCERS -----------------------------------------
+                Set<String> producers = null;
+                producers = preferences.getStringSet("developers_list", producers);
+
+                if (producers != null) {
+                    String producers_str = "";
+                    for (int i = 0; i < producers.size(); i++) {
+                        if (i > 0)
+                            producers_str += ",";
+                        producers_str += producers.toArray()[i].toString();
+                    }
+
+                    params.add(new BasicNameValuePair("producer", producers_str));
+                }
+
+                // CHECK PLATFORM ------------------------------------------
+                Set<String> platforms = null;
+                platforms = preferences.getStringSet("platform_list", platforms);
+
+                if (platforms != null) {
+                    String producers_str = "";
+                    for (int i = 0; i < platforms.size(); i++) {
+                        if (i > 0)
+                            producers_str += ",";
+                        producers_str += platforms.toArray()[i].toString();
+                    }
+
+                    params.add(new BasicNameValuePair("producer", producers_str));
+                }
+
                 Log.d("DBMANAGER", "PARAMS ARE: " + params.toString());
             }
 
@@ -230,7 +283,7 @@ public class ItemListActivity extends FragmentActivity
 
 
             makeRequest(url_single_product_MYSQL);
-            makeRequest(url_all_products_POSTGRESQL);
+            makeRequest(url_single_product_POSTGRESQL);
 
             return null;
         }

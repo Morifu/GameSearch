@@ -10,10 +10,19 @@
             android:switchTextOff="OFF"
             android:switchTextOn="ON" />
 
+        <com.morfi.gamesearch.PricePickerPreference
+            android:key="price_preference"
+            android:dependency="advanced_search_preference"
+            android:title="@string/pref_title_price"
+            android:summary="@string/pref_description_price"
+            android:positiveButtonText="Clear Quests"
+            android:negativeButtonText="Cancel" />
+
         <MultiSelectListPreference
             android:key="developers_list"
             android:dependency="advanced_search_preference"
             android:title="@string/pref_title_producer"
+            android:summary="@string/pref_producer_summary"
             android:entries="@array/pref_producer_titles"
             android:entryValues="@array/pref_producer_titles"
             android:dialogTitle="@string/pref_title_producer" />
@@ -22,9 +31,19 @@
             android:key="genres_list"
             android:dependency="advanced_search_preference"
             android:title="@string/pref_title_genre"
+            android:summary="@string/pref_genre_summary"
             android:entries="@array/pref_genre_list"
             android:entryValues="@array/pref_genre_list"
             android:dialogTitle="@string/pref_title_genre" />
+
+        <MultiSelectListPreference
+            android:key="platform_list"
+            android:dependency="advanced_search_preference"
+            android:title="@string/pref_title_platform"
+            android:summary="@string/pref_platform_summary"
+            android:entries="@array/pref_platform_list"
+            android:entryValues="@array/pref_platform_list"
+            android:dialogTitle="@string/pref_title_platform" />
 
     </PreferenceCategory>
 

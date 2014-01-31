@@ -3,6 +3,7 @@ package com.morfi.gamesearch;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.SearchView;
@@ -27,6 +28,8 @@ public class SearchActivity extends FragmentActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 
     }
@@ -76,4 +79,7 @@ public class SearchActivity extends FragmentActivity {
         }
     }
 
+
 }
+
+
