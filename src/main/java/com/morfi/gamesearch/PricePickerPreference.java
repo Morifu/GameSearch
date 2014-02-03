@@ -66,9 +66,14 @@ public class PricePickerPreference extends DialogPreference {
     private void setInitialValues() {
         String value = getPersistedString("");
         Log.d("DBMANAGER", "persisted string value: " + value);
-        String[] minMax = value.split("-");
-        min = minMax[0];
-        max = minMax[1];
+        if (value.isEmpty()) {
+            min = "0";
+            max = "9999";
+        } else {
+            String[] minMax = value.split("-");
+            min = minMax[0];
+            max = minMax[1];
+        }
     }
 
 }
