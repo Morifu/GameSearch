@@ -300,6 +300,7 @@ public class ItemListActivity extends FragmentActivity
                 Log.d("DBMANAGER", "All products: " + json.toString());
 
             try {
+
                 // Checking for SUCCESS TAG
                 int success = json.getInt(TAG_SUCCESS);
 
