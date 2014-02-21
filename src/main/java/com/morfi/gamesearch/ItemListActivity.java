@@ -48,11 +48,11 @@ public class ItemListActivity extends FragmentActivity
 
     // url for http get all products
     // private static String url_all_products_MYSQL = "http://31.172.184.17/android_connect/get_all_products.php";
-    private String url_single_product_MYSQL = "http://31.172.184.17/android_connect/get_product_details.php";
-    private String url_single_product_MYSQL_localhost = "http://127.0.0.1/android_connect/get_product_details.php";
+    private String url_single_product_MYSQL = "http://orohimaru.zebromalz.info/android/get_product_details.php";
+    // private String url_single_product_MYSQL_localhost = "http://127.0.0.1/android_connect/get_product_details.php";
     //private static String url_all_products_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_all_products.php";
-    private String url_single_product_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_product_details.php";
-    private String url_single_product_POSTGRESQL_localhost = "http://127.0.0.1:90/android_connect/get_product_details.php";
+    private String url_single_product_POSTGRESQL = "http://orohimaru.zebromalz.info/android/get_product_details_pg.php";
+    //private String url_single_product_POSTGRESQL_localhost = "http://127.0.0.1:90/android_connect/get_product_details.php";
 
     private String query;
     private String requestURL;
@@ -285,9 +285,9 @@ public class ItemListActivity extends FragmentActivity
 
 
             // makeRequest(url_single_product_MYSQL);
-            makeRequest(url_single_product_MYSQL_localhost);
+            makeRequest(url_single_product_MYSQL);
             //makeRequest(url_single_product_POSTGRESQL);
-            makeRequest(url_single_product_POSTGRESQL_localhost);
+            makeRequest(url_single_product_POSTGRESQL);
 
             return null;
         }
