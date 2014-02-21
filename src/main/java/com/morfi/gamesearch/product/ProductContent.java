@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
+ * Helper class for providing sample content for user interfaces
  */
 public class ProductContent {
 
@@ -25,7 +22,7 @@ public class ProductContent {
 
     public static void addItem(ProductItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.pid, item);
+        ITEM_MAP.put(item.pid + "_" + item.baseID, item);
     }
 
     /**
@@ -38,8 +35,10 @@ public class ProductContent {
         public int price;
         public String producer;
         public String platform;
+        public String baseID;
 
-        public ProductItem(String id, String title, String genre, int price, String producer, String platform) {
+        public ProductItem(String bID, String id, String title, String genre, int price, String producer, String platform) {
+            this.baseID = bID;
             this.pid = id;
             this.title = title;
             this.genre = genre;

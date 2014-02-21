@@ -2,23 +2,26 @@
 
     <!-- Strings related to Advanced Search -->
 
-    <string name="pref_header_advanced">Advanced Search</string>
-    <string name="pref_advanced_description">Turn on advanced search</string>
+    <string name="pref_header_advanced">Wyszukiwanie zaawansowane</string>
+    <string name="pref_advanced_description">Włącz</string>
 
-    <string name="pref_title_price">Price</string>
-    <string name="pref_description_price">Set price from… to…</string>
+    <string name="pref_title_price">Cena</string>
+    <string name="pref_description_price">Przedział cenowy</string>
     <string name="pref_price_from">Min:</string>
     <string name="pref_price_to">Max:</string>
 
-    <string name="pref_title_condition">Condition</string>
-    <string name="pref_default_condition">Used or new game?</string>
-    <string name="pref_condition_new">New</string>
-    <string name="pref_condition_used">Used</string>
+    <string name="pref_cancel">Anuluj</string>
+    <string name="pref_ok">Potwierdź</string>
 
-    <string name="pref_search_in_description">Search also in description</string>
+    <string name="pref_title_condition">Stan</string>
+    <string name="pref_default_condition">Używana lub nowa?</string>
+    <string name="pref_condition_new">Nowa</string>
+    <string name="pref_condition_used">Używana</string>
 
-    <string name="pref_title_producer">Producer</string>
-    <string name="pref_producer_summary">Select producers</string>
+    <string name="pref_search_in_description">Szukaj w opisie...</string>
+
+    <string name="pref_title_producer">Producent</string>
+    <string name="pref_producer_summary">Wybierz producenta</string>
     <string-array name="pref_producer_titles">
         <item>EA</item>
         <item>Blizzard</item>
@@ -31,8 +34,8 @@
         <item>Vanilla Software</item>
     </string-array>
 
-    <string name="pref_title_genre">Genre</string>
-    <string name="pref_genre_summary">Select genres</string>
+    <string name="pref_title_genre">Gatunek</string>
+    <string name="pref_genre_summary">Wybierz gatunek</string>
     <string-array name="pref_genre_list">
         <item>RPG</item>
         <item>FPS</item>
@@ -44,8 +47,8 @@
         <item>Sport</item>
     </string-array>
 
-    <string name="pref_title_platform">Platform</string>
-    <string name="pref_platform_summary">Select platforms</string>
+    <string name="pref_title_platform">Platforma</string>
+    <string name="pref_platform_summary">Wybierz platformę</string>
     <string-array name="pref_platform_list">
         <item>PS3</item>
         <item>PS4</item>

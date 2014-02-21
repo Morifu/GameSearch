@@ -21,8 +21,6 @@ public class PricePickerPreference extends DialogPreference {
         super(context, attrs);
 
         setDialogLayoutResource(R.layout.price_picker);
-        setPositiveButtonText(android.R.string.ok);
-        setNegativeButtonText(android.R.string.cancel);
 
         setDialogIcon(null);
     }

@@ -2,15 +2,25 @@
 <resources>
 
     <string name="app_name">GameSearch</string>
-    <string name="title_item_detail">Item Detail</string>
+    <string name="title_item_detail">Szczegóły produktu</string>
     <string name="title_activity_search">GameSearch!</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="search_result">Search Results:</string>
-    <string name="search_hint">Search for games</string>
-    <string name="action_search">Search...</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="search_result">Wyniki zapytania:</string>
+    <string name="search_hint">Szukaj gier</string>
+    <string name="action_search">Szukaj...</string>
     <string name="appwidget_text">EXAMPLE</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
+    <string name="configure">Konfiguruj</string>
+    <string name="add_widget">Dodaj Widget</string>
+    <string name="title_activity_main">GameSearch!</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="search_btn">Wyszukaj Gry</string>
+    <string name="admin_btn">Tryb Admina</string>
+    <string name="about_btn">O Programie</string>
+    <string name="title_activity_about">O programie:</string>
+    <string name="about_string">GameSearch \n\n wersja: \n 1.0.0 \n\n Autor: \n Adam Pach</string>
+    <string name="title_activity_admin">Tryb Admina</string>
 
 </resources>

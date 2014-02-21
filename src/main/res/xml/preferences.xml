@@ -15,8 +15,8 @@
             android:dependency="advanced_search_preference"
             android:title="@string/pref_title_price"
             android:summary="@string/pref_description_price"
-            android:positiveButtonText="Clear Quests"
-            android:negativeButtonText="Cancel" />
+            android:positiveButtonText="@string/pref_ok"
+            android:negativeButtonText="@string/pref_cancel" />
 
         <MultiSelectListPreference
             android:key="developers_list"
