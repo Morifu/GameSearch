@@ -1,5 +1,6 @@
 package com.morfi.gamesearch;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -80,6 +81,10 @@ public class ItemDetailFragment extends Fragment {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent editIntent = new Intent(ItemDetailActivity.context, ItemEditActivity.class);
+                editIntent.putExtra(ARG_ITEM_ID, mItem.pid + "_" + mItem.baseID);
+                startActivity(editIntent);
 
             }
         });

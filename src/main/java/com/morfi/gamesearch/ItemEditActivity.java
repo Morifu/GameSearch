@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.morfi.gamesearch.product.ProductContent;
+
 public class ItemEditActivity extends ActionBarActivity {
 
     public static Context context;
@@ -22,8 +24,14 @@ public class ItemEditActivity extends ActionBarActivity {
         setContentView(R.layout.activity_item_edit);
         context = getApplicationContext();
         if (savedInstanceState == null) {
+
+            Bundle arguments = new Bundle();
+            arguments.putString(ItemDetailFragment.ARG_ITEM_ID,
+                    getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, fragment)
                     .commit();
         }
     }
@@ -59,7 +67,28 @@ public class ItemEditActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        /**
+         * The fragment argument representing the item ID that this fragment
+         * represents.
+         */
+        public static final String ARG_ITEM_ID = "item_id";
+
+        /**
+         * The dummy content this fragment is presenting.
+         */
+        private ProductContent.ProductItem mItem;
+
         public PlaceholderFragment() {
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            if (getArguments().containsKey(ItemDetailFragment.ARG_ITEM_ID)) {
+
+                mItem = ProductContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            }
         }
 
         @Override

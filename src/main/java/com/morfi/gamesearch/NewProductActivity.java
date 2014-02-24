@@ -152,12 +152,12 @@ public class NewProductActivity extends ActionBarActivity {
                 if (success == 1) {
                     // successfully created product
                     Intent i = new Intent(getApplicationContext(), ItemListActivity.class);
+                    i.putExtra("ALL_PRODUCTS", true);
                     startActivity(i);
-
                     // closing this screen
                     finish();
                 } else {
-                    Toast.makeText(context, R.string.create_failed, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, R.string.create_failed, Toast.LENGTH_LONG).show();
                     // failed to create product
                 }
             } catch (JSONException e) {

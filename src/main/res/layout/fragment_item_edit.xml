@@ -14,7 +14,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <!-- Name Label -->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -27,13 +26,108 @@
 
         <!-- Input Name -->
         <EditText
-            android:id="@+id/inputName"
+            android:id="@+id/inputTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
             android:layout_marginBottom="15dip"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:inputType="text"
+            android:textColor="@android:color/background_light" />
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/price_label"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:textSize="17dip"
+            android:textColor="@android:color/background_light" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_margin="5dip"
+            android:layout_marginBottom="15dip"
+            android:singleLine="true"
+            android:id="@+id/inputPrice"
+            android:textColor="@android:color/background_light"
+            android:inputType="phone"
+            android:digits="1234567890" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/platform_label"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:textSize="17dip"
+            android:textColor="@android:color/background_light" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:layout_margin="5dip"
+            android:layout_marginBottom="15dip"
+            android:singleLine="true"
+            android:id="@+id/inputPlatform"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/genre_label"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:textSize="17dip"
+            android:textColor="@android:color/background_light" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:layout_margin="5dip"
+            android:layout_marginBottom="15dip"
+            android:singleLine="true"
+            android:id="@+id/inputGenre"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/producer_label"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:textSize="17dip"
+            android:textColor="@android:color/background_light" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:layout_margin="5dip"
+            android:layout_marginBottom="15dip"
+            android:singleLine="true"
+            android:id="@+id/inputProducer"
+            android:textColor="@android:color/background_light" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_edit_btn_label"
+            android:id="@+id/save_edit_btn"
+            android:textColor="@android:color/background_light" />
+
+        <!-- Input Name -->
 
     </LinearLayout>
 </RelativeLayout>
