@@ -23,6 +23,17 @@ public class ProductContent {
      */
     public static Map<String, ProductItem> ITEM_MAP = new HashMap<String, ProductItem>();
 
+    // JSON Node names
+    public static final String TAG_SUCCESS = "success";
+    public static final String TAG_PRODUCTS = "products";
+    public static final String TAG_PID = "pid";
+    public static final String TAG_TITLE = "title";
+    public static final String TAG_GENRE = "genre";
+    public static final String TAG_PRICE = "price";
+    public static final String TAG_PRODUCER = "producer";
+    public static final String TAG_PLATFORM = "platform";
+    public static final String TAG_BASEID = "bid";
+
     public static void addItem(ProductItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.pid + "_" + item.baseID, item);

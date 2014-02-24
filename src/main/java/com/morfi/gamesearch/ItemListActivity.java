@@ -55,16 +55,6 @@ implements ItemListFragment.Callbacks {
 
     private String query;
 
-    // JSON Node names
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_PRODUCTS = "products";
-    private static final String TAG_PID = "pid";
-    private static final String TAG_TITLE = "Title";
-    private static final String TAG_GENRE = "Genre";
-    private static final String TAG_PRICE = "Price";
-    private static final String TAG_PRODUCER = "Producer";
-    private static final String TAG_PLATFORM = "Platform";
-    private static final String TAG_BASEID = "BaseID";
 
     private static final String TAG_LIST_FRAGMENT = "list_tag";
 
@@ -291,25 +281,25 @@ implements ItemListFragment.Callbacks {
             try {
 
                 // Checking for SUCCESS TAG
-                int success = json.getInt(TAG_SUCCESS);
+                int success = json.getInt(ProductContent.TAG_SUCCESS);
 
                 if (success == 1) {
                     // products found
                     // Getting Array of Products
-                    products = json.getJSONArray(TAG_PRODUCTS);
+                    products = json.getJSONArray(ProductContent.TAG_PRODUCTS);
 
                     // looping through All Products
                     for (int i = 0; i < products.length(); i++) {
                         JSONObject c = products.getJSONObject(i);
 
                         // Storing each json item in variable
-                        String id = c.getString(TAG_PID);
-                        String title = c.getString(TAG_TITLE);
-                        String genre = c.getString(TAG_GENRE);
-                        int price = c.getInt(TAG_PRICE);
-                        String producer = c.getString(TAG_PRODUCER);
-                        String platform = c.getString(TAG_PLATFORM);
-                        String baseID = c.getString(TAG_BASEID);
+                        String id = c.getString(ProductContent.TAG_PID);
+                        String title = c.getString(ProductContent.TAG_TITLE);
+                        String genre = c.getString(ProductContent.TAG_GENRE);
+                        int price = c.getInt(ProductContent.TAG_PRICE);
+                        String producer = c.getString(ProductContent.TAG_PRODUCER);
+                        String platform = c.getString(ProductContent.TAG_PLATFORM);
+                        String baseID = c.getString(ProductContent.TAG_BASEID);
                         Log.d("DBMANAGER", "ADDING TITLE: " + title);
                         ProductContent.addItem(new ProductContent.ProductItem(baseID, id, title, genre, price, producer, platform));
 
@@ -392,25 +382,25 @@ implements ItemListFragment.Callbacks {
             try {
 
                 // Checking for SUCCESS TAG
-                int success = json.getInt(TAG_SUCCESS);
+                int success = json.getInt(ProductContent.TAG_SUCCESS);
 
                 if (success == 1) {
                     // products found
                     // Getting Array of Products
-                    products = json.getJSONArray(TAG_PRODUCTS);
+                    products = json.getJSONArray(ProductContent.TAG_PRODUCTS);
 
                     // looping through All Products
                     for (int i = 0; i < products.length(); i++) {
                         JSONObject c = products.getJSONObject(i);
 
                         // Storing each json item in variable
-                        String id = c.getString(TAG_PID);
-                        String title = c.getString(TAG_TITLE);
-                        String genre = c.getString(TAG_GENRE);
-                        int price = c.getInt(TAG_PRICE);
-                        String producer = c.getString(TAG_PRODUCER);
-                        String platform = c.getString(TAG_PLATFORM);
-                        String baseID = c.getString(TAG_BASEID);
+                        String id = c.getString(ProductContent.TAG_PID);
+                        String title = c.getString(ProductContent.TAG_TITLE);
+                        String genre = c.getString(ProductContent.TAG_GENRE);
+                        int price = c.getInt(ProductContent.TAG_PRICE);
+                        String producer = c.getString(ProductContent.TAG_PRODUCER);
+                        String platform = c.getString(ProductContent.TAG_PLATFORM);
+                        String baseID = c.getString(ProductContent.TAG_BASEID);
 
                         Log.d("DBMANAGER", "ADDING TITLE: " + title);
                         ProductContent.addItem(new ProductContent.ProductItem(baseID, id, title, genre, price, producer, platform));

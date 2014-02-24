@@ -1,6 +1,7 @@
 package com.morfi.gamesearch;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -74,7 +75,8 @@ public class ItemDetailFragment extends Fragment {
         buyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent webi = new Intent(Intent.ACTION_VIEW, Uri.parse("http://google.pl"));
+                startActivity(webi);
             }
         });
 

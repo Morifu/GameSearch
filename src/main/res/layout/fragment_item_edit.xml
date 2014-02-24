@@ -120,12 +120,26 @@
             android:id="@+id/inputProducer"
             android:textColor="@android:color/background_light" />
 
-        <Button
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save_edit_btn_label"
-            android:id="@+id/save_edit_btn"
-            android:textColor="@android:color/background_light" />
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save_edit_btn_label"
+                android:id="@+id/save_edit_btn"
+                android:textColor="@android:color/background_light" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_edit_btn_label"
+                android:id="@+id/delete_btn"
+                android:textColor="@android:color/background_light" />
+        </LinearLayout>
 
         <!-- Input Name -->
 

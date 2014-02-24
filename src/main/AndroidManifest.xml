@@ -63,8 +63,9 @@
         <activity
             android:name="com.morfi.gamesearch.AdminActivity"
             android:label="@string/title_activity_admin"
-            android:parentActivityName="com.morfi.gamesearch.MainActivity">
-            <meta-data
+            android:parentActivityName="com.morfi.gamesearch.MainActivity"
+            android:launchMode="singleInstance">
+        <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>

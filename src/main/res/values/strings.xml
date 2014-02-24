@@ -34,10 +34,13 @@
     <string name="buy_label">Zakup Grę</string>
     <string name="delete_label">Usuń</string>
     <string name="edit_label">Edytuj</string>
-    <string name="title_activity_item_edit">ItemEditActivity</string>
+    <string name="title_activity_item_edit">Edytowanie produktu</string>
     <string name="title_activity_new_product">Dodaj nowy produkt</string>
     <string name="create_product_label">Stwórz nowy produkt</string>
     <string name="create_failed">Utworzenie produktu nie powiodło się!</string>
     <string name="create_empty_fields_error">Wszystkie pola muszą być wypełnione!</string>
     <string name="save_edit_btn_label">Zapisz zmiany</string>
+    <string name="delete_edit_btn_label">Usuń Pozycję</string>
+    <string name="saving_label">Zapisywanie...</string>
+    <string name="deleting_label">Usuwanie...</string>
 </resources>
