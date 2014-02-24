@@ -15,7 +15,7 @@ import com.morfi.gamesearch.product.ProductContent;
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link ItemDetailFragment}.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -71,7 +71,6 @@ public class ItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
         Log.d("DBMANAGER", "CREATING FRAGMENT!");
         setListAdapter(new ArrayAdapter<ProductContent.ProductItem>(
                 getActivity(),
@@ -118,7 +117,7 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(ProductContent.ITEMS.get(position).pid);
+        mCallbacks.onItemSelected(ProductContent.ITEMS.get(position).pid + "_" + ProductContent.ITEMS.get(position).baseID);
     }
 
     @Override

@@ -9,9 +9,30 @@
     tools:context="com.morfi.gamesearch.AdminActivity$PlaceholderFragment"
     android:background="@android:color/background_dark">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_show_all"
+            android:id="@+id/admin_showall_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/background_light" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_add_new"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:textColor="@android:color/background_light"
+            android:id="@+id/admin_addnew_btn" />
+    </LinearLayout>
 </RelativeLayout>

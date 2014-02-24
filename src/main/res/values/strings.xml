@@ -22,5 +22,21 @@
     <string name="title_activity_about">O programie:</string>
     <string name="about_string">GameSearch \n\n wersja: \n 1.0.0 \n\n Autor: \n Adam Pach</string>
     <string name="title_activity_admin">Tryb Admina</string>
-
+    <string name="loading_products">Ładowanie produktów, proszę czekać...</string>
+    <string name="price_label">Cena:</string>
+    <string name="genre_label">Gatunek:</string>
+    <string name="producer_label">Producent:</string>
+    <string name="title_label">Tytuł:</string>
+    <string name="platform_label">Platformy:</string>
+    <string name="price_currency">zł</string>
+    <string name="admin_show_all">Wyświetl produkty</string>
+    <string name="admin_add_new">Dodaj nową pozycję</string>
+    <string name="buy_label">Zakup Grę</string>
+    <string name="delete_label">Usuń</string>
+    <string name="edit_label">Edytuj</string>
+    <string name="title_activity_item_edit">ItemEditActivity</string>
+    <string name="title_activity_new_product">Dodaj nowy produkt</string>
+    <string name="create_product_label">Stwórz nowy produkt</string>
+    <string name="create_failed">Utworzenie produktu nie powiodło się!</string>
+    <string name="create_empty_fields_error">Wszystkie pola muszą być wypełnione!</string>
 </resources>

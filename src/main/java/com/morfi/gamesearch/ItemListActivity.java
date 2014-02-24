@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.morfi.gamesearch.product.ProductContent;
 
@@ -39,23 +41,19 @@ import java.util.Set;
  * {@link ItemListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ItemListActivity extends FragmentActivity
-        implements ItemListFragment.Callbacks {
+public class ItemListActivity extends ActionBarActivity
+implements ItemListFragment.Callbacks {
 
     private ProgressDialog pDialog;
 
     private JSONParser jParser = new JSONParser();
 
     // url for http get all products
-    // private static String url_all_products_MYSQL = "http://31.172.184.17/android_connect/get_all_products.php";
-    private String url_single_product_MYSQL = "http://orohimaru.zebromalz.info/android/get_product_details.php";
-    // private String url_single_product_MYSQL_localhost = "http://127.0.0.1/android_connect/get_product_details.php";
-    //private static String url_all_products_POSTGRESQL = "http://31.172.184.17:90/android_connect/get_all_products.php";
-    private String url_single_product_POSTGRESQL = "http://orohimaru.zebromalz.info/android/get_product_details_pg.php";
-    //private String url_single_product_POSTGRESQL_localhost = "http://127.0.0.1:90/android_connect/get_product_details.php";
+    private String url_all_products = "http://orohimaru.zebromalz.info/android/get_all_products.php";
+    // url for http get for selected products based on settings
+    private String url_single_product = "http://orohimaru.zebromalz.info/android/get_product_details.php";
 
     private String query;
-    private String requestURL;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -107,34 +105,35 @@ public class ItemListActivity extends FragmentActivity
             query = intent.getStringExtra(SearchManager.QUERY);
             Log.d("DBMANAGER", "query is:" + query);
 
-
             ProductContent.ITEMS.clear();
-
             doSearch();
 
+        } else if (intent.getExtras() != null && intent.getExtras().getBoolean("ALL_PRODUCTS")) {
+            ProductContent.ITEMS.clear();
+            doGetAllProducts();
 
         } else {
-            ItemListFragment fragment = ((ItemListFragment) getSupportFragmentManager()
-                    .findFragmentByTag(TAG_LIST_FRAGMENT));
-            if (fragment == null) {
-                Log.d("DBMANAGER", "Fragment is null, creating new one");
-                fragment = new ItemListFragment();
-            }
+            ItemListFragment fragment = new ItemListFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.search_result_container, fragment)
+                    .add(R.id.search_result_container, fragment, TAG_LIST_FRAGMENT)
                     .commit();
-
-
         }
 
 
+    }
+
+    private void doGetAllProducts() {
+        Log.d("DBMANAGER", "GETTING ALL PRODUCST");
+
+        // Loading all products in background thread
+        new LoadAllProducts().execute();
     }
 
     private void doSearch() {
         Log.d("DBMANAGER", "SEARCHING QUERY");
 
         // Loading products in Background Thread
-        new LoadAllProducts().execute();
+        new LoadProducts().execute();
     }
 
     /**
@@ -164,28 +163,28 @@ public class ItemListActivity extends FragmentActivity
         }
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                // This ID represents the Home or Up button. In the case of this
-//                // activity, the Up button is shown. Use NavUtils to allow users
-//                // to navigate up one level in the application structure. For
-//                // more details, see the Navigation pattern on Android Design:
-//                //
-//                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-//                //
-//                NavUtils.navigateUpTo(this, new Intent(this, SearchActivity.class));
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // This ID represents the Home or Up button. In the case of this
+                // activity, the Up button is shown. Use NavUtils to allow users
+                // to navigate up one level in the application structure. For
+                // more details, see the Navigation pattern on Android Design:
+                //
+                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+                //
+                NavUtils.navigateUpTo(this, new Intent(this, SearchActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     /**
-     * Background Async Task to Load all product by making HTTP Request
+     * Background Async Task to Load product by query by making HTTP Request
      */
-    class LoadAllProducts extends AsyncTask<String, String, String> {
+    class LoadProducts extends AsyncTask<String, String, String> {
 
         // list of php params
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -197,7 +196,7 @@ public class ItemListActivity extends FragmentActivity
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(ItemListActivity.this);
-            pDialog.setMessage("Loading products. Please wait...");
+            pDialog.setMessage(getString(R.string.loading_products));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -278,14 +277,7 @@ public class ItemListActivity extends FragmentActivity
          */
         protected String doInBackground(String... args) {
 
-            // TODO: setting up params based on preferences
-
-
-            // makeRequest(url_single_product_MYSQL);
-            makeRequest(url_single_product_MYSQL);
-            //makeRequest(url_single_product_POSTGRESQL);
-            makeRequest(url_single_product_POSTGRESQL);
-
+            makeRequest(url_single_product);
             return null;
         }
 
@@ -318,6 +310,108 @@ public class ItemListActivity extends FragmentActivity
                         String producer = c.getString(TAG_PRODUCER);
                         String platform = c.getString(TAG_PLATFORM);
                         String baseID = c.getString(TAG_BASEID);
+                        Log.d("DBMANAGER", "ADDING TITLE: " + title);
+                        ProductContent.addItem(new ProductContent.ProductItem(baseID, id, title, genre, price, producer, platform));
+
+                    }
+                } else {
+                    // no products found
+                    // Launch Add New product Activity
+//                    Intent i = new Intent(getApplicationContext(),
+//                            NewProductActivity.class);
+//                    // Closing all previous activities
+//                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(i);
+                    Log.d("DBMANAGER", "CANNOT SUCCESSFULLY DOWNLOAD ITEMS");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * *
+         */
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after getting all products
+            pDialog.dismiss();
+
+
+            ItemListFragment fragment = new ItemListFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.search_result_container, fragment, TAG_LIST_FRAGMENT)
+                    .commit();
+
+            for (int i = 0; i < ProductContent.ITEMS.size(); i++)
+                Log.d("DBPRODUCTS", "Product is: " + ProductContent.ITEMS.get(i).title);
+            Log.d("DBMANAGER", "POST EXECUTE");
+
+
+        }
+
+    }
+
+    /**
+     * Background Async Task to Load all product by making HTTP Request
+     */
+    class LoadAllProducts extends AsyncTask<String, String, String> {
+        // list of php params
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ItemListActivity.this);
+            pDialog.setMessage(getString(R.string.loading_products));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        /**
+         * getting All products from url
+         */
+        protected String doInBackground(String... args) {
+
+            makeRequest(url_all_products);
+
+            return null;
+        }
+
+        private void makeRequest(String url) {
+            JSONObject json = jParser.makeHttpRequest(url, "POST", params);
+
+            // Check your log cat for JSON reponse
+            if (json != null)
+                Log.d("DBMANAGER", "All products: " + json.toString());
+
+            try {
+
+                // Checking for SUCCESS TAG
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    products = json.getJSONArray(TAG_PRODUCTS);
+
+                    // looping through All Products
+                    for (int i = 0; i < products.length(); i++) {
+                        JSONObject c = products.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String id = c.getString(TAG_PID);
+                        String title = c.getString(TAG_TITLE);
+                        String genre = c.getString(TAG_GENRE);
+                        int price = c.getInt(TAG_PRICE);
+                        String producer = c.getString(TAG_PRODUCER);
+                        String platform = c.getString(TAG_PLATFORM);
+                        String baseID = c.getString(TAG_BASEID);
+
                         Log.d("DBMANAGER", "ADDING TITLE: " + title);
                         ProductContent.addItem(new ProductContent.ProductItem(baseID, id, title, genre, price, producer, platform));
 

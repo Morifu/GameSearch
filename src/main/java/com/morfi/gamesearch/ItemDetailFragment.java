@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.morfi.gamesearch.product.ProductContent;
@@ -16,6 +17,10 @@ import com.morfi.gamesearch.product.ProductContent;
  * on handsets.
  */
 public class ItemDetailFragment extends Fragment {
+
+    private Button buyBtn;
+    private Button editBtn;
+
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -51,14 +56,35 @@ public class ItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.detail_title)).setText("Game Title: " + mItem.title);
-            ((TextView) rootView.findViewById(R.id.detail_price)).setText("Price: " + mItem.price + " PLN");
-            ((TextView) rootView.findViewById(R.id.detail_genre)).setText("Genre: " + mItem.genre);
-            ((TextView) rootView.findViewById(R.id.detail_producer)).setText("Producer: " + mItem.producer);
-            ((TextView) rootView.findViewById(R.id.detail_platform)).setText("Platform(s): " + mItem.platform);
+            ((TextView) rootView.findViewById(R.id.detail_title)).setText(getString(R.string.title_label) + " " + mItem.title);
+            ((TextView) rootView.findViewById(R.id.detail_price)).setText(getString(R.string.price_label) + " " + mItem.price + " " + getString(R.string.price_currency));
+            ((TextView) rootView.findViewById(R.id.detail_genre)).setText(getString(R.string.genre_label) + " " + mItem.genre);
+            ((TextView) rootView.findViewById(R.id.detail_producer)).setText(getString(R.string.producer_label) + " " + mItem.producer);
+            ((TextView) rootView.findViewById(R.id.detail_platform)).setText(getString(R.string.platform_label) + " " + mItem.platform);
 
         }
 
+        buyBtn = (Button) rootView.findViewById(R.id.buy_btn);
+        editBtn = (Button) rootView.findViewById(R.id.edit_btn);
+
+        editBtn.setEnabled(MainActivity.adminMode);
+        editBtn.setVisibility(MainActivity.adminMode ? View.VISIBLE : View.INVISIBLE);
+
+        buyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return rootView;
     }
+
 }

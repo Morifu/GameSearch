@@ -1,5 +1,6 @@
 package com.morfi.gamesearch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,12 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class AboutActivity extends ActionBarActivity {
+public class ItemEditActivity extends ActionBarActivity {
+
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_item_edit);
+        context = getApplicationContext();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -29,7 +33,7 @@ public class AboutActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.about, menu);
+        getMenuInflater().inflate(R.menu.item_edit, menu);
         return true;
     }
 
@@ -44,7 +48,7 @@ public class AboutActivity extends ActionBarActivity {
                 //
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 //
-                NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
+                NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -61,7 +65,9 @@ public class AboutActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_about, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_item_edit, container, false);
+
+
             return rootView;
         }
     }

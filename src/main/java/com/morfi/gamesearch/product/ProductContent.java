@@ -1,5 +1,8 @@
 package com.morfi.gamesearch.product;
 
+import com.morfi.gamesearch.MainActivity;
+import com.morfi.gamesearch.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,11 @@ public class ProductContent {
     public static void addItem(ProductItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.pid + "_" + item.baseID, item);
+    }
+
+    public static void removeItem(ProductItem item) {
+        ITEMS.remove(item);
+        ITEM_MAP.remove(item);
     }
 
     /**
@@ -50,7 +58,7 @@ public class ProductContent {
         /* method to stringify object, it allows to display objects in item list*/
         @Override
         public String toString() {
-            return title + ", price : " + price + " PLN";
+            return title + "\n" + MainActivity.appcontext.getString(R.string.price_label) + " " + price + MainActivity.appcontext.getString(R.string.price_currency);
         }
     }
 }

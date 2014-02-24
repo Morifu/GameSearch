@@ -19,7 +19,7 @@
             android:name="com.morfi.gamesearch.ItemListActivity"
             android:label="@string/search_result"
             android:parentActivityName="com.morfi.gamesearch.ItemListActivity">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
@@ -36,13 +36,13 @@
             android:name="com.morfi.gamesearch.ItemDetailActivity"
             android:label="@string/title_item_detail"
             android:parentActivityName="com.morfi.gamesearch.ItemListActivity">
-        <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />
         </activity>
         <activity
             android:name="com.morfi.gamesearch.SearchActivity"
-            android:label="@string/title_activity_search"></activity>
+            android:label="@string/title_activity_search" />
         <activity
             android:name="com.morfi.gamesearch.MainActivity"
             android:label="@string/title_activity_main">
@@ -68,6 +68,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
+        <activity
+            android:name="com.morfi.gamesearch.ItemEditActivity"
+            android:label="@string/title_activity_item_edit"></activity>
+        <activity
+            android:name="com.morfi.gamesearch.NewProductActivity"
+            android:label="@string/title_activity_new_product"></activity>
     </application>
 
 </manifest>
